@@ -152,6 +152,210 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-faster_r_cnn" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/08/09/faster_r_cnn/">faster_r_cnn</a>
+    </h1>
+  
+
+        
+        <a href="/2020/08/09/faster_r_cnn/" class="archive-article-date">
+  	<time datetime="2020-08-09T01:02:45.187Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Faster-R-CNN"><a href="#Faster-R-CNN" class="headerlink" title="Faster R-CNN"></a>Faster R-CNN</h1><h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>region proposal algorithms<br>被用于hypothesize物体位置，但也成为瓶颈</p>
+<p>This work introduces a  Region Proposal Networks (RPN)<br>与检测网络share全图卷积特征，enabling nearly cost-free region proposals.  </p>
+<p>RPN is a fully convolutional network  </p>
+<blockquote>
+<p>经典的CNN在卷积层后使用全连接层，得到固定长度的特征向量  </p>
+</blockquote>
+<blockquote>
+<p>FCN可以接受任意尺寸的输入图像，采用反卷基层对最后的feature map进行上采样，使其恢复到输入图像相同的尺寸，从而可以对每一个像素都产生一个预测<br>FCN将传统CNN中的全连接层转化成一个个的卷基层，所以是 fully convolutional network</p>
+</blockquote>
+<p>RPN predicts <strong>object bounds</strong> and <strong>objectness scores</strong> at each position.  </p>
+<blockquote>
+<p>object bounds: 物体边缘<br>objectness scores: 这个patch包含物体的置信度</p>
+</blockquote>
+<p>RPN is trained end-to-end to generate region proposals.  </p>
+<blockquote>
+<p>end to end: 输入原始数据，输出所需结果，实际上对应的是“不分步”<br>分步处理过程中，可能造成特征提取不当</p>
+</blockquote>
+<p>merge RPN and Fast R-CNN into a single network by sharing convolutional features，<br>using ‘attention’ mechanisms.<br>the RPN component tells the unified network where to look</p>
+<blockquote>
+<p>注意力机制（Attention Mechanism）和人类视觉的注意力机制类似，就是在众多信息中把注意力集中放在重要的点上，选出关键信息，而忽略其他不重要的信息。<br>大多数注意力模型附着在Encoder-Decoder框架下，给定输入X，通过Encoder得到中间语义C，而注意力机制下，不同的C将会被赋予不同权重。</p>
+</blockquote>
+<p>For the very deep VGG-16 model,<br>our detection system has a frame rate of 5fps (including all steps) on a GPU,</p>
+<hr>
+<h2 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h2><p>Recent works use <strong>region proposal methods + region-based CNNs</strong>.<br>Proposals are the test-time computational bottleneck.  </p>
+<p>It typically rely on <strong>inexpensive features and economical inference schemes</strong>.<br><strong>Selective Search</strong> is the most popular methods.<br>It greedily merges superpixels based on engineered low-level features.</p>
+<blockquote>
+<p>Selective Search 先利用基于图的图像分割方法得到小尺度的区域，在循环中每次合并最相似的两个图片，最后得到了一块完整的图片。过程中，我们保存原本图片和合并图片，则得到了图像的分层表示，可以用于适应不同尺度。</p>
+</blockquote>
+<blockquote>
+<p>Graph-Based Segmentation 使用图的贪心聚类方法，贪心比较点在邻域中的相似程度。最开始每个像素都是顶点，而逐渐合并得到一个区域（连接区域中像素点的最小生成树），分割结果是森林。</p>
+</blockquote>
+<blockquote>
+<p>superpixels: 将类似的像素组合为更大的元素（超像素）</p>
+</blockquote>
+<p>re-implementation of proposal computation for the GPU can accelerate, but ignores the down-stream detection network and misses opportunities for sharing computation.</p>
+<p>Region Proposal Networks (RPNs) share convolution networks, so the marginal cost for computing proposals is small.<br>(Because) We find the feature maps used by region-based detectores, can also be used for generatingg region proposals.</p>
+<p>On top of these convolutional features, we construct an RPN by adding a few addtional convolutional layers that simultaneously regress region bounds and objectness scores at each location on a regular grid.  </p>
+<p>It’s a fully convolutional network FCN, and can be trained end-to-end specifically for the task for generating detection proposals.</p>
+<p>RPNs are designed to efficiently predict region proposals with a wide range of scales and aspect ratios.</p>
+<blockquote>
+<p>scale: 尺度<br>aspect ratios: 长宽比</p>
+</blockquote>
+<p>Prevalent methods: pyramids of image / pyramids of filters<br>Our scheme: ‘anchor’ boxes, a pyramid of regression references</p>
+<blockquote>
+<p>anchor boxes 用于解决多尺度问题。<br>由于存在region proposal，因而ground truth的label包括了类别标签与偏移量两部分。用多个不同尺度的anchor，有利于使用交并比衡量偏移量。</p>
+</blockquote>
+<p>To unify RPNs with Fast R-CNN object detection networks, we propose a training scheme that alternates between fine-tuning for the region proposal task and the fine-tuning for object detection, while keeping the proposal fixed.</p>
+<blockquote>
+<p>fine-tuning: 在实践中，由于数据集不够大，很少有人从头开始训练网络。常见的做法是使用预训练的网络来重新fine-tuning（也叫微调），或者当做特征提取器。</p>
+</blockquote>
+<hr>
+<h2 id="Realated-Work"><a href="#Realated-Work" class="headerlink" title="Realated Work"></a>Realated Work</h2><h3 id="Object-proposals"><a href="#Object-proposals" class="headerlink" title="Object proposals"></a>Object proposals</h3><p>Include those based on grouping super-pixels (Selective Search, CPMC, ,CG)<br>Include those based on sliding windows (objectness in windows, EdgeBoxes)<br>Include those Object proposal methods were adopted as external modules independent of the detectors (Selective Search object detectors, R-CNN, Fast R-CNN)  </p>
+<p>–more–</p>
+<hr>
+<h2 id="Faster-R-CNN-1"><a href="#Faster-R-CNN-1" class="headerlink" title="Faster R-CNN"></a>Faster R-CNN</h2><p>composed of two modules:  </p>
+<ol>
+<li>A deep fully convolutional network that proposes regions</li>
+<li>the Fast R-CNN detector that uses the proposed regions</li>
+</ol>
+<p>The entire system is a single unified network for object detection. Using the ‘attention’ mechanisms, the RPN module tells the Fast R-CNN mudle where to look.</p>
+<p><img src="./1.jpeg" alt="Faster R-CNN is a single, unified network
+for object detection"></p>
+<blockquote>
+<p>Roi pooling:  Region of interest pooling</p>
+</blockquote>
+<hr>
+<p><img src="./3.jpeg" alt="for object detection"></p>
+<blockquote>
+<p>首先缩放至固定大小MxN，然后将MxN图像送入网络；<br>Conv layers中包含了13个conv层+13个relu层+4个pooling层；<br>RPN网络首先经过3x3卷积，再分别生成positive anchors和对应bounding box regression偏移量，然后计算出proposals；<br>Roi Pooling层则利用proposals从feature maps中提取proposal feature送入后续全连接和softmax网络作classification（即分类proposal到底是什么object）。</p>
+</blockquote>
+<hr>
+<h3 id="Region-proposal-Network"><a href="#Region-proposal-Network" class="headerlink" title="Region proposal Network"></a>Region proposal Network</h3><p>input: image of any size<br>output: a set of rectangular object proposals, each with an objectness scoure.<br>Model: fully convolutional network (with shareable convolutional layers)</p>
+<p>To generate region proposal, we slide a small network over the convolutional feature map output by the last shared convolutional feature map.<br>Each sliding window is mapped to a lower-dimensional feature. This feature is fed into two sobling fully-connected layers (a box-regression layer and a box-classification layer)</p>
+<blockquote>
+<p> feature map<br> |<br>sliding small network  (nxn convolutional layer)<br>(n*n spatial window as input, lower-dimensinal (256,512) feature as output)<br>相当于每个点融合了周围3x3的信息<br>|<br>256-d/ 512-d feature<br>|<br>Two sibling fully-connected layers (1x1 convolutional layer)<br>A box-regression layer (reg)<br>A box-classification layer (cls)<br>每个点由256d转换为2k个分数（anchor是pos还是neg）<br>以及（x,y,w,h）四个偏移量</p>
+</blockquote>
+<blockquote>
+<p>全连接层可以起到分类器作用，其将学到的分布式特征表示映射到样本标记空间。实际运用中，全连接层可由卷及操作实现（对前层是全连接的全连接层可以使用1*1的卷积，对前曾是卷基层的全连接层可以使用h×w的卷积）</p>
+</blockquote>
+<p>in this paper, n=3<br>The effective receptive field on the input image is large (177|228)   </p>
+<p><img src="./2.jpeg" alt="Region Proposal Network (RPN)"></p>
+<blockquote>
+<p>总的来说,cls layer的用途是分类候选框, reg layer的用途是让预测的坐标值在训练过程中不断接近真实坐标值</p>
+</blockquote>
+<blockquote>
+<p>其实RPN最终就是在原图尺度上，设置了密密麻麻的候选Anchor。然后用cnn去判断哪些Anchor是里面有目标的positive anchor，哪些是没目标的negative anchor。所以，仅仅是个二分类而已！</p>
+</blockquote>
+<hr>
+<h3 id="anchor"><a href="#anchor" class="headerlink" title="anchor"></a>anchor</h3><p>Simultaneously predict multiple region proposals.<br>The number of maximum possible proposals for each location is denoted as k.<br>The reg layer has 4k outputs, encoding the coordnates of k boxes<br>THe cls layer has 2k scores estimating probability of object or not object for each proposal.  </p>
+<p>The k propposals are parameterized relative to k reference boxes, which we call anchors.<br>An anchor is centered at the sliding window, associated with a scale and aspect ratio. By default we use 3 scales and 3 aspect ratios, yielding k=9 anchors at each sliding position.</p>
+<p>For a convolutional feature map of a size WxH, there are WHk anchors in total.</p>
+<blockquote>
+<p>对于每一个点配备9种anchor（作为初始检测框），则每一张图共有WHk个anchor<br>VGG输出的特征图有512张，因此总的anchor数是512WHk<br>这样并不准确，后面还有2次bounding box regression可以修正检测框位置</p>
+</blockquote>
+<blockquote>
+<p>Bounding-box regression: 边框回归，使得画出的框与ground truth更接近</p>
+</blockquote>
+<hr>
+<h3 id="Translation-Invariant-Anchors"><a href="#Translation-Invariant-Anchors" class="headerlink" title="Translation-Invariant Anchors"></a>Translation-Invariant Anchors</h3><blockquote>
+<p>trans-invar一般是物体的位置变换不影响结果<br>As a result, we can expect: less risk of overfitting, reduces the model size</p>
+</blockquote>
+<hr>
+<h3 id="Multi-Scale-Anchors-as-Regression-References"><a href="#Multi-Scale-Anchors-as-Regression-References" class="headerlink" title="Multi-Scale Anchors as Regression References"></a>Multi-Scale Anchors as Regression References</h3><p><strong>image/feature pyramids</strong>: often useful but time-consuming<br><strong>pyramid of filters</strong>: sliding windows  of multiple scales<br><strong>pyramid of anchors</strong>: cost-efficient, enable feature share</p>
+<hr>
+<h3 id="Loss-function"><a href="#Loss-function" class="headerlink" title="Loss function"></a>Loss function</h3><p>For training RPNs, we assign a binary class label<br>(of being an object or not) to each anchor.  </p>
+<p>We assign a positive label to two kinds of anchors:</p>
+<ol>
+<li>the anchor/anchors with the highest Intersection-over-<br>Union (IoU) overlap with a ground-truth box</li>
+<li>an anchor that has an IoU overlap higher than 0.7 with<br>any ground-truth box.</li>
+</ol>
+<p>We assign a negative label to a non-positive anchor if its<br>IoU ratio is lower than 0.3 for all ground-truth boxes.<br>Anchors that are neither positive nor negative do not<br>contribute to the training objective.  </p>
+<p>–more–</p>
+<hr>
+<h3 id="Sharing-Features-for-RPN-and-Fast-R-CNN"><a href="#Sharing-Features-for-RPN-and-Fast-R-CNN" class="headerlink" title="Sharing Features for RPN and Fast R-CNN"></a>Sharing Features for RPN and Fast R-CNN</h3><p>For the detection network, we adopt Fast R-CNN<br>Three ways for training networks with features shared:  </p>
+<ol>
+<li><p>Alternating training.</p>
+<blockquote>
+<p>In this solution, we first train<br>RPN, and use the proposals to train Fast R-CNN.<br>The network tuned by Fast R-CNN is then used to<br>initialize RPN, and this process is iterated. This is the<br>solution that is used in all experiments in this paper</p>
+</blockquote>
+</li>
+<li><p>Approximate joint training.  </p>
+<blockquote>
+<p>同时训练二者，得到的region proposals被用于训练Fast R-CNN;<br>反向传播时，同时结合两者的loss<br>easy to implement, but this solution ignores the derivative w.r.t the proposal boxes’ coordinates that are also network responses.<br>训练时间少，结果相近</p>
+</blockquote>
+</li>
+</ol>
+<p>(iii) Non-approximate joint training. As discussed<br>above, the bounding boxes predicted by RPN are<br>also functions of the input. The RoI pooling layer<br>[2] in Fast R-CNN accepts the convolutional features<br>and also the predicted bounding boxes as input, so<br>a theoretically valid backpropagation solver should<br>also involve gradients w.r.t. the box coordinates. These<br>gradients are ignored in the above approximate joint<br>training. In a non-approximate joint training solution,<br>we need an RoI pooling layer that is differentiable<br>w.r.t. the box coordinates. This is a nontrivial problem<br>and a solution can be given by an “RoI warping” layer<br>as developed in [15], which is beyond the scope of this<br>paper.</p>
+<hr>
+<h3 id="implementation-details"><a href="#implementation-details" class="headerlink" title="implementation details"></a>implementation details</h3><p>train and test on images of a single scale.<br>We re-scale the images such that their shorter side is s=600 pixels.</p>
+<p>stride is 16, but good enough</p>
+<p>Use ablation experiments to test anchor box.</p>
+<blockquote>
+<p>ablation experiments消融实验：通过删除部分网络并研究网络 的性能来了解网络。</p>
+</blockquote>
+<p>allows predictions<br>that are larger than the underlying receptive field.</p>
+<p>During training, we ignore<br>all cross-boundary anchors so they do not contribute<br>to the loss.</p>
+<p>During<br>testing, however, we still apply the fully convolutional<br>RPN to the entire image. This may generate cross-<br>boundary proposal boxes, which we clip to the image<br>boundary</p>
+<p>To reduce redundancy, we adopt non-maximum<br>suppression (NMS) on the proposal regions based on<br>their cls scores.  We fix the IoU threshold for NMS<br>at 0.7， NMS does not harm the<br>ultimate detection accuracy, but substantially reduces<br>the number of proposals.</p>
+<hr>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>We have presented RPNs for efficient and accurate<br>region proposal generation.  </p>
+<p>By sharing convolutional features with the down-stream detection network, the<br>region proposal step is nearly cost-free.<br>Our method enables a unified, deep-learning-based object detection system to run at near real-time frame rates.  </p>
+<p>The learned RPN also improves region proposal quality<br>and thus the overall object detection accuracy.</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/08/09/faster_r_cnn/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-first-article" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
