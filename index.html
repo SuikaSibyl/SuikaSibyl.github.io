@@ -152,27 +152,27 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-faster_r_cnn" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-faster-r-cnn" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/08/09/faster_r_cnn/">faster_r_cnn</a>
+      <a class="article-title" href="/2020/08/24/faster-r-cnn/">&#39;faster_r_cnn&#39;</a>
     </h1>
   
 
         
-        <a href="/2020/08/09/faster_r_cnn/" class="archive-article-date">
-  	<time datetime="2020-08-09T01:02:45.187Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-09</time>
+        <a href="/2020/08/24/faster-r-cnn/" class="archive-article-date">
+  	<time datetime="2020-08-24T14:25:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-24</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Faster-R-CNN"><a href="#Faster-R-CNN" class="headerlink" title="Faster R-CNN"></a>Faster R-CNN</h1><h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>region proposal algorithms<br>被用于hypothesize物体位置，但也成为瓶颈</p>
+        <h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>region proposal algorithms<br>被用于hypothesize物体位置，但也成为瓶颈</p>
 <p>This work introduces a  Region Proposal Networks (RPN)<br>与检测网络share全图卷积特征，enabling nearly cost-free region proposals.  </p>
 <p>RPN is a fully convolutional network  </p>
 <blockquote>
@@ -226,19 +226,19 @@
 <h2 id="Realated-Work"><a href="#Realated-Work" class="headerlink" title="Realated Work"></a>Realated Work</h2><h3 id="Object-proposals"><a href="#Object-proposals" class="headerlink" title="Object proposals"></a>Object proposals</h3><p>Include those based on grouping super-pixels (Selective Search, CPMC, ,CG)<br>Include those based on sliding windows (objectness in windows, EdgeBoxes)<br>Include those Object proposal methods were adopted as external modules independent of the detectors (Selective Search object detectors, R-CNN, Fast R-CNN)  </p>
 <p>–more–</p>
 <hr>
-<h2 id="Faster-R-CNN-1"><a href="#Faster-R-CNN-1" class="headerlink" title="Faster R-CNN"></a>Faster R-CNN</h2><p>composed of two modules:  </p>
+<h2 id="Faster-R-CNN"><a href="#Faster-R-CNN" class="headerlink" title="Faster R-CNN"></a>Faster R-CNN</h2><p>composed of two modules:  </p>
 <ol>
 <li>A deep fully convolutional network that proposes regions</li>
 <li>the Fast R-CNN detector that uses the proposed regions</li>
 </ol>
 <p>The entire system is a single unified network for object detection. Using the ‘attention’ mechanisms, the RPN module tells the Fast R-CNN mudle where to look.</p>
-<p><img src="./1.jpeg" alt="Faster R-CNN is a single, unified network
+<p><img src="/2020/08/24/faster-r-cnn/1.jpeg" alt="Faster R-CNN is a single, unified network
 for object detection"></p>
 <blockquote>
 <p>Roi pooling:  Region of interest pooling</p>
 </blockquote>
 <hr>
-<p><img src="./3.jpeg" alt="for object detection"></p>
+<p><img src="/2020/08/24/faster-r-cnn/3.jpeg" alt="for object detection"></p>
 <blockquote>
 <p>首先缩放至固定大小MxN，然后将MxN图像送入网络；<br>Conv layers中包含了13个conv层+13个relu层+4个pooling层；<br>RPN网络首先经过3x3卷积，再分别生成positive anchors和对应bounding box regression偏移量，然后计算出proposals；<br>Roi Pooling层则利用proposals从feature maps中提取proposal feature送入后续全连接和softmax网络作classification（即分类proposal到底是什么object）。</p>
 </blockquote>
@@ -246,13 +246,13 @@ for object detection"></p>
 <h3 id="Region-proposal-Network"><a href="#Region-proposal-Network" class="headerlink" title="Region proposal Network"></a>Region proposal Network</h3><p>input: image of any size<br>output: a set of rectangular object proposals, each with an objectness scoure.<br>Model: fully convolutional network (with shareable convolutional layers)</p>
 <p>To generate region proposal, we slide a small network over the convolutional feature map output by the last shared convolutional feature map.<br>Each sliding window is mapped to a lower-dimensional feature. This feature is fed into two sobling fully-connected layers (a box-regression layer and a box-classification layer)</p>
 <blockquote>
-<p> feature map<br> |<br>sliding small network  (nxn convolutional layer)<br>(n*n spatial window as input, lower-dimensinal (256,512) feature as output)<br>相当于每个点融合了周围3x3的信息<br>|<br>256-d/ 512-d feature<br>|<br>Two sibling fully-connected layers (1x1 convolutional layer)<br>A box-regression layer (reg)<br>A box-classification layer (cls)<br>每个点由256d转换为2k个分数（anchor是pos还是neg）<br>以及（x,y,w,h）四个偏移量</p>
+<p> feature map<br>  |<br> sliding small network  (nxn convolutional layer)<br> (n*n spatial window as input, lower-dimensinal (256,512) feature as output)<br> 相当于每个点融合了周围3x3的信息<br> |<br> 256-d/ 512-d feature<br> |<br> Two sibling fully-connected layers (1x1 convolutional layer)<br> A box-regression layer (reg)<br> A box-classification layer (cls)<br> 每个点由256d转换为2k个分数（anchor是pos还是neg）<br> 以及（x,y,w,h）四个偏移量</p>
 </blockquote>
 <blockquote>
 <p>全连接层可以起到分类器作用，其将学到的分布式特征表示映射到样本标记空间。实际运用中，全连接层可由卷及操作实现（对前层是全连接的全连接层可以使用1*1的卷积，对前曾是卷基层的全连接层可以使用h×w的卷积）</p>
 </blockquote>
 <p>in this paper, n=3<br>The effective receptive field on the input image is large (177|228)   </p>
-<p><img src="./2.jpeg" alt="Region Proposal Network (RPN)"></p>
+<p><img src="/2020/08/24/faster-r-cnn/2.jpeg" alt="Region Proposal Network (F:/SuikaSibyl/blog/source/_posts/faster_r_cnn./2.jpeg)"></p>
 <blockquote>
 <p>总的来说,cls layer的用途是分类候选框, reg layer的用途是让预测的坐标值在训练过程中不断接近真实坐标值</p>
 </blockquote>
@@ -287,17 +287,17 @@ for object detection"></p>
 <hr>
 <h3 id="Sharing-Features-for-RPN-and-Fast-R-CNN"><a href="#Sharing-Features-for-RPN-and-Fast-R-CNN" class="headerlink" title="Sharing Features for RPN and Fast R-CNN"></a>Sharing Features for RPN and Fast R-CNN</h3><p>For the detection network, we adopt Fast R-CNN<br>Three ways for training networks with features shared:  </p>
 <ol>
-<li><p>Alternating training.</p>
+<li>Alternating training.</li>
+</ol>
 <blockquote>
 <p>In this solution, we first train<br>RPN, and use the proposals to train Fast R-CNN.<br>The network tuned by Fast R-CNN is then used to<br>initialize RPN, and this process is iterated. This is the<br>solution that is used in all experiments in this paper</p>
 </blockquote>
-</li>
-<li><p>Approximate joint training.  </p>
+<ol start="2">
+<li>Approximate joint training.  </li>
+</ol>
 <blockquote>
 <p>同时训练二者，得到的region proposals被用于训练Fast R-CNN;<br>反向传播时，同时结合两者的loss<br>easy to implement, but this solution ignores the derivative w.r.t the proposal boxes’ coordinates that are also network responses.<br>训练时间少，结果相近</p>
 </blockquote>
-</li>
-</ol>
 <p>(iii) Non-approximate joint training. As discussed<br>above, the bounding boxes predicted by RPN are<br>also functions of the input. The RoI pooling layer<br>[2] in Fast R-CNN accepts the convolutional features<br>and also the predicted bounding boxes as input, so<br>a theoretically valid backpropagation solver should<br>also involve gradients w.r.t. the box coordinates. These<br>gradients are ignored in the above approximate joint<br>training. In a non-approximate joint training solution,<br>we need an RoI pooling layer that is differentiable<br>w.r.t. the box coordinates. This is a nontrivial problem<br>and a solution can be given by an “RoI warping” layer<br>as developed in [15], which is beyond the scope of this<br>paper.</p>
 <hr>
 <h3 id="implementation-details"><a href="#implementation-details" class="headerlink" title="implementation details"></a>implementation details</h3><p>train and test on images of a single scale.<br>We re-scale the images such that their shorter side is s=600 pixels.</p>
@@ -326,72 +326,7 @@ for object detection"></p>
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2020/08/09/faster_r_cnn/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-first-article" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/07/06/first-article/">first article</a>
-    </h1>
-  
-
-        
-        <a href="/2020/07/06/first-article/" class="archive-article-date">
-  	<time datetime="2020-07-06T11:12:27.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="第一张"><a href="#第一张" class="headerlink" title="第一张"></a>第一张</h2><p>内容</p>
-<hr>
-<h2 id="第二章"><a href="#第二章" class="headerlink" title="第二章"></a>第二章</h2><hr>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/07/06/first-article/">展开全文 >></a>
+          <a class="article-more-a" href="/2020/08/24/faster-r-cnn/">展开全文 >></a>
         </p>
       
 
