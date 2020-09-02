@@ -6,15 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2020/8 | Hexo</title>
+  <title>VR_Bridges | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2020/08/index.html">
+  <meta name="description" content="VR Bridges: Simulating Smooth Uneven Surfaces in VR使用多种physical props（物理道具）做smooth uneven surface（平滑非平坦表面）仿真：    使用平坦物理桥，模拟虚拟凹面桥与凸面桥（上方） 使用凸面物理桥，模拟不同曲度的虚拟凸面桥（下方）   AbstractVR is often incomparable to">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VR_Bridges">
+<meta property="og:url" content="http://yoursite.com/2020/09/02/VR_Bridges/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="VR Bridges: Simulating Smooth Uneven Surfaces in VR使用多种physical props（物理道具）做smooth uneven surface（平滑非平坦表面）仿真：    使用平坦物理桥，模拟虚拟凹面桥与凸面桥（上方） 使用凸面物理桥，模拟不同曲度的虚拟凸面桥（下方）   AbstractVR is often incomparable to">
 <meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://yoursite.com/2020/09/02/VR_Bridges/VR_Bridges/1_1.png">
+<meta property="article:published_time" content="2020-09-02T13:06:29.762Z">
+<meta property="article:modified_time" content="2020-09-02T13:07:00.998Z">
 <meta property="article:author" content="Suika">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/09/02/VR_Bridges/VR_Bridges/1_1.png">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -150,49 +156,261 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-VR_Bridges" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/08/24/faster-r-cnn/" class="archive-article-date">
-  	<time datetime="2020-08-24T14:25:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-24</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/24/faster-r-cnn/">&#39;faster_r_cnn&#39;</a>
+    <h1 class="article-title" itemprop="name">
+      VR_Bridges
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
+        
+        <a href="/2020/09/02/VR_Bridges/" class="archive-article-date">
+  	<time datetime="2020-09-02T13:06:29.762Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="VR-Bridges-Simulating-Smooth-Uneven-Surfaces-in-VR"><a href="#VR-Bridges-Simulating-Smooth-Uneven-Surfaces-in-VR" class="headerlink" title="VR Bridges: Simulating Smooth Uneven Surfaces in VR"></a>VR Bridges: Simulating Smooth Uneven Surfaces in VR</h1><p><img src="VR_Bridges/1_1.png" alt=""><br>使用多种physical props（物理道具）做smooth uneven surface（平滑非平坦表面）仿真：  </p>
+<ol>
+<li>使用平坦物理桥，模拟虚拟凹面桥与凸面桥（上方）</li>
+<li>使用凸面物理桥，模拟不同曲度的虚拟凸面桥（下方）</li>
+</ol>
+<hr>
+<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>VR is often incomparable to real-world experience.<br>Walkable smooth uneven surfaces are inherent to reality but extremely lacking in VR.  </p>
+<p>Focus on human height and slant perception (倾斜知觉) of the uneven surfaces with multi-sensory stimulation in VR.<br>By employing viewport<br>manipulations, haptic (触觉), and vibrotactile stimuli（振动刺激）, we explore the possibility to simulate uneven surfaces different from the physical props used.</p>
+<p>使用rounded prop有助于制造一个高于物理装置的uneven surface的错觉。如果触觉感觉没有冲突，则多感官刺激将会使得高度和倾斜估计更接近视觉提示所建议的值。</p>
+<p>使用平坦的prop是不现实的，因为会导致强力的高度与倾斜知觉的错误，并且将与视觉提示背道而驰。不过如果曲面无法被使用，则平面可能仍然能够用于模拟小的凹凸。</p>
+<hr>
+<h2 id="Related-Work"><a href="#Related-Work" class="headerlink" title="Related Work"></a>Related Work</h2><p>Sensory integration 感觉统合将不同来源的感官整合来表现世界，而这能够改变对虚拟世界的看法。</p>
+<h3 id="Height-and-Slant-Perception"><a href="#Height-and-Slant-Perception" class="headerlink" title="Height and Slant Perception"></a>Height and Slant Perception</h3><pre><code>基本上，人们高估高度，并且从上向下看更会高估。  
+强烈的情绪状态，如唤醒、厌恶、恐惧都会增加对高度的高估。
 
+在有意识的估算时，人们也倾向于高估倾斜度。
+倾斜度高估并不依赖于视角方向，而触觉提示如果一致则可以增强视觉倾斜感知。</code></pre><h3 id="Non-ﬂat-VEs-and-Haptics"><a href="#Non-ﬂat-VEs-and-Haptics" class="headerlink" title="Non-ﬂat VEs and Haptics"></a>Non-ﬂat VEs and Haptics</h3><pre><code>Uneven surfaces 与 corresponding haptic sensations 是现实世界多感官表达的重要组分。
+
+四种模拟非平面的camera manipulation techniques：
+1. 调整虚拟相机高度以maintaining相应的非平面
+2. 根据surface的tangent调整camera的pitch
+3. 调整摄像机的速度
+4. 结合所有三种方式
+
+使用electro-mechanical devices创造物理改变的世界：
+1. 追踪用户的脚并且将其转送的中间位置
+2. 结合camera manipulation和passive haptic stimulation创造无限的楼梯井
+3. 使用multi-sensory stimulation platform，根据音频振动</code></pre><h3 id="Multi-Sensory-Stimulation-for-VR"><a href="#Multi-Sensory-Stimulation-for-VR" class="headerlink" title="Multi-Sensory Stimulation for VR"></a>Multi-Sensory Stimulation for VR</h3><pre><code>多感官有利于营造沉浸感。不同来源的感觉信息可能造成感官失调，但经过精心设计，感官失调可能有利于VR体验：
+1. camera view manipulations for height simulation
+2. space compression via redirection
+3. 地板震动通过震动传到头部，可能用来改变触觉、本体感觉和前庭系统</code></pre><h3 id="Locomotion-and-Redirection"><a href="#Locomotion-and-Redirection" class="headerlink" title="Locomotion and Redirection"></a>Locomotion and Redirection</h3><pre><code>1. 使用灰色overlay覆盖几帧，悄悄重定位virtual camera
+2. 在使用者被蜂鸟分心时进行旋转
+RDW has a Free Toolkit in Unity 3D</code></pre><hr>
+<h2 id="General-Design"><a href="#General-Design" class="headerlink" title="General Design"></a>General Design</h2><p>选用桥进行研究是因为：</p>
+<ol>
+<li>是一个可悲integrated into VR的现实物体。</li>
+<li>提供了上升与下降</li>
+<li>physical props能够提供安全保障</li>
+</ol>
+<p>研究方向：visual height, camera pitch manipulation, vibrotactile stimulation</p>
+<p>假设：</p>
+<ol>
+<li>uneven physical surface will allow for larger height manipulations</li>
+<li>Pitch manipulation will increase the perceived slant, especially with uneven physical surface</li>
+</ol>
+<p>实验设计：</p>
+<ol>
+<li>within-participants experimental design</li>
+<li>several visual heights and all possible combinations with the other binary independent variables</li>
+</ol>
+<h3 id="Virtual-Environment"><a href="#Virtual-Environment" class="headerlink" title="Virtual Environment"></a>Virtual Environment</h3><p>具有环境声音：海浪声，鸟叫声，以辅助沉浸体验与掩盖无关声音</p>
+<p>避免使用逼真的视觉效果来获得更好的帧速率，因为视觉效果对存在感和记忆的形成没有深远的影响。</p>
+<p>对于虚拟桥梁，我们使用了一个自制的桥梁模型，可以精确地参数化桥梁的高度、长度、宽度和弯曲度。它允许用户精确地控制桥梁的视觉形状以及相应的摄像机高度和方向控制。当从一个岛走到另一个岛时，参与者正在跨越虚拟桥。每个虚拟桥都有一个独特的操纵组合。同时，在现实世界中，参与者被重新引导回同一个物理桥上。</p>
+<h3 id="Physical-Bridges"><a href="#Physical-Bridges" class="headerlink" title="Physical Bridges"></a>Physical Bridges</h3><p>3m长，55cm宽，90cm栏杆。为了更好的传递音波，在桥下放置了金属板，声音传感器直接与金属接触。</p>
+<h3 id="Manipulation"><a href="#Manipulation" class="headerlink" title="Manipulation"></a>Manipulation</h3><p>使用了multi-sensory stimulation。</p>
+<ol>
+<li>height &amp; pitch rotation of the viewport</li>
+<li>vibrotactile stimuli</li>
+<li>passive haptic feedback of stepping on/off &amp; touching the railings</li>
+</ol>
+<ul>
+<li><p>Height Adjustment</p>
+<blockquote>
+<p>在脊椎上放置了定位器，其定位比头部更加稳定，而比基于脚更加可靠。这带来了adequate height adjustment，并允许用户自由的与环境互动而不带有visual artifacts.<br>  此外，手持控制器也能够进行同步高度调整</p>
+</blockquote>
+</li>
+<li><p>Pitch Manipulation</p>
+<blockquote>
+<p>representing real bridge center-line与虚拟桥切线的夹角。有缓慢的过渡区域，防止忽然的方向转变。在测试后，把pitch manipulation减小为tangent line和real bridge center line夹角的50%。<br>  当视线与桥中线平行时附加角度最大，当视线与桥中线垂直时附加角度最小。</p>
+</blockquote>
+</li>
+<li><p>Vibrotactile Stimuli</p>
+</li>
+</ul>
+<blockquote>
+<p>使用audio transducer实现vibrotactile stimuli，作为输入信号，使用uniform sound wave音频文件，最终选用了40Hz。根据不同的桥，使用了不同的放大程度。</p>
+</blockquote>
+<ul>
+<li><p>Redirection</p>
+<blockquote>
+<p>使用Walking Toolkit实现redirection，伪装成pop the balloons游戏。彩色的气球依次为随机的产生，基于当前最大的重定向可能。</p>
+</blockquote>
+<blockquote>
+<p>首先采用了steer-to-center类型的redirection，这在参与者环顾四周的气球并且走向它们时被应用。set the gains’ thresholds to the 50% </p>
+</blockquote>
+<blockquote>
+<p>其次，结合了blindness和optical flow simulation引入了额外的重定向，当参与者将其视角放在气球上触摸气球时，气球相对于virtual camera的位置被存储，同时额外的旋转（小于5度）和平移（小于30cm）被施加给camera以达成redirection。Particle emission center也和camera一起移动，以保证不会被察觉。</p>
+</blockquote>
+</li>
+<li><p>Measures</p>
+<blockquote>
+<p>在桥的中间和终点，两次要求参与者估计虚拟桥的高度。在桥上，我们要求他们用一个简单的水平滑块预测厘米级的高度。<br>  在岛上，我们创建了一个reporting station，首先参与者会要求使用垂直化快估计桥高；随后我们让参与者倾斜一个中立的垂直板去表达在桥上走过的最大倾斜角</p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<h2 id="General-Procedure"><a href="#General-Procedure" class="headerlink" title="General Procedure"></a>General Procedure</h2><p>参与者在实验结束前将不会看到工作场地</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/09/02/VR_Bridges/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2020/09/02/TrackedPoseDriver/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          TrackedPoseDriver
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2020/08/24/faster-r-cnn/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">&#39;faster_r_cnn&#39;</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -215,8 +433,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

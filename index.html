@@ -13,7 +13,7 @@
 <meta property="og:url" content="http://yoursite.com/index.html">
 <meta property="og:site_name" content="Hexo">
 <meta property="og:locale" content="en_US">
-<meta property="article:author" content="John Doe">
+<meta property="article:author" content="Suika">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
@@ -46,7 +46,7 @@
 			<img src="" class="js-avatar">
 		</a>
 		<hgroup>
-		  <h1 class="header-author"><a href="/">John Doe</a></h1>
+		  <h1 class="header-author"><a href="/">Suika</a></h1>
 		</hgroup>
 		
 
@@ -104,7 +104,7 @@
 				<img src="" class="js-avatar">
 			</div>
 			<hgroup>
-			  <h1 class="header-author js-header-author">John Doe</h1>
+			  <h1 class="header-author js-header-author">Suika</h1>
 			</hgroup>
 			
 			
@@ -151,6 +151,367 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-TrackedPoseDriver" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/09/02/TrackedPoseDriver/">TrackedPoseDriver</a>
+    </h1>
+  
+
+        
+        <a href="/2020/09/02/TrackedPoseDriver/" class="archive-article-date">
+  	<time datetime="2020-09-02T13:07:16.601Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="TrackedPoseDriver"><a href="#TrackedPoseDriver" class="headerlink" title="TrackedPoseDriver"></a>TrackedPoseDriver</h1><p>namespace UnityEngine.SpatialTracking</p>
+<hr>
+<h3 id="重要类-public-class-TrackedPoseDriver"><a href="#重要类-public-class-TrackedPoseDriver" class="headerlink" title="重要类 public class TrackedPoseDriver"></a>重要类 public class TrackedPoseDriver</h3><p>把一个追踪设备的Pose值赋给 一个GameObject的transform。可以用于追踪多种设备，包括XR HMDs, controllers, remotes。</p>
+<p><strong>类型枚举</strong></p>
+<ul>
+<li><p>public enum <code>DeviceType</code></p>
+<p>列举了哪种类型的设备被追踪：GenericXRDevice, GenericXRController, GenericXRRemote.</p>
+</li>
+<li><p>public enum <code>TrackedPose</code></p>
+<p>列举了Device的什么部分成为Pose追踪的目标：LeftEye，RightEye，Center，Head，LeftPose，RightPose，ColorCamera，RemotePose。</p>
+</li>
+<li><p>public enum <code>TrackingType</code></p>
+<p>列举了transform与pose同步的程度：RotationAndPosition，RotationOnly，PositionOnly。</p>
+</li>
+<li><p>public enum <code>UpdateType</code></p>
+<p>列举了同步的时机。input在update和before rendering时被sample，为了平滑的追踪建议使用在这两个时机都进行同步：UpdateAndBeforeRender，Update，BeforeRender。</p>
+</li>
+</ul>
+<p><strong>属性字段</strong></p>
+<ul>
+<li><p>Property DeviceType <code>deviceType</code></p>
+</li>
+<li><p>Property TrackedPose <code>poseSource</code></p>
+</li>
+<li><p>Property BasePoseProvider <code>poseProviderComponent</code></p>
+<p>保存了PoseProvicer的引用，将用于override这个TrackedPoseDriver的行为。当字段为空，TrackedPoseDriver照常运行，一旦设置了此字段，Pose将有PoseProvider提供。（类间关系：BasePoseProvider是PoseProvider的基本实现，而PoseProvider是TrackedPoseDriver的功能扩展。例如可以把arm models与TrackedPoseDriver相连接。）</p>
+</li>
+<li><p>Property TrackingType <code>trackingType</code></p>
+</li>
+<li><p>Property UpdateType <code>updateType</code></p>
+</li>
+<li><p>Property bool <code>UseRelativeTransform</code></p>
+<p>用于indicate该TrackedPoseDriver是否使用object原本的transform作为basis</p>
+</li>
+<li><p>Property Pose <code>originPose</code></p>
+<p>是一个施加到任何tracking data上的偏移量。最好移动该对象的parent transform。</p>
+</li>
+</ul>
+<p><strong>方法</strong></p>
+<ul>
+<li><p>protected virtual void <code>PerformUpdate()</code></p>
+<p>实际对Pose进行同步的函数，在多个位置被调用。得到了设备的Pose，并且添加RelativeTransform，最后设置为当前物体的位置。</p>
+<ul>
+<li><p>PoseDataFlags <code>GetPoseData</code>(DeviceType device, TrackedPose poseSource, out Pose resultPose)</p>
+<p>如果<em>poseProviderComponent</em>非空则调用其GetPoseFromProvider（来自BasePoseProvider类）得到resultPose；否则则调用GetDataFromSource方法（来自PoseDataSource类）得到resultPose。</p>
+</li>
+<li><p>protected Pose <code>TransformPoseByOriginIfNeeded</code>(Pose pose)</p>
+<p>实施了把原坐标作为相对参考加入坐标结果的过程。</p>
+<p>当UseRelativeTransform=true时，根据OriginPose进行Transform</p>
+</li>
+<li><p>protected virtual void <code>SetLocalTransform</code>(Vector3 newPosition, Quaternion newRotation, PoseDataFlags poseFlags)</p>
+<p>实施了把Pose（Position+Rotation）赋值给物体的过程。</p>
+</li>
+</ul>
+</li>
+<li><p><code>Update()</code></p>
+<p>在每次update要求调用PerformUpdate()。如果设置UpdateType中包括Update则执行PerformUpdate。</p>
+</li>
+<li><p>protected virtual void <code>OnBeforeRender()</code></p>
+<p>在每次渲染前要求调用PerformUpdate()。如果设置UpdateType中包括BeforeRender则执行PerformUpdate。在onEnable()中加入Application.onBeforeRender</p>
+</li>
+<li><p><code>OnEnable()</code></p>
+<p>添加OnBeforeRender()到onBeforeRender，使得每次渲染前更新Pose信息。</p>
+</li>
+<li><p><code>OnDisable()</code></p>
+<p>移除OnBeforeRender()自onBeforeRender，使得每次渲染前不再更新Pose信息。</p>
+<ul>
+<li><p>private void <code>ResetToCachedLocalPosition</code>()</p>
+<p>把存储的OriginPose重新赋值给物体的transform，脱离跟踪设备。</p>
+</li>
+</ul>
+</li>
+<li><p><code>Awake()</code></p>
+<ul>
+<li><p>private void <em>CacheLocalPosition</em>()</p>
+<p>把transform的localPosition同步给m_OriginPose</p>
+</li>
+</ul>
+</li>
+<li><p>public bool <code>SetPoseSource</code>(DeviceType deviceType, TrackedPose pose)</p>
+<p>设置deviceType与poseSource字段，会帮助检查输入的一对是否合理，不合理返回false。</p>
+</li>
+</ul>
+<hr>
+<h3 id="枚举：public-enum-PoseDataFlags"><a href="#枚举：public-enum-PoseDataFlags" class="headerlink" title="枚举：public enum PoseDataFlags"></a>枚举：public enum PoseDataFlags</h3><p>采用Bitflag enum，记录了哪些数据已经设置好了。</p>
+<ul>
+<li><p>NoData = 0</p>
+</li>
+<li><p>Position = 1&lt;&lt; 0</p>
+</li>
+<li><p>Rotation = 1&lt;&lt;1</p>
+</li>
+</ul>
+<hr>
+<h3 id="辅助类：static-public-class-PoseDataSource"><a href="#辅助类：static-public-class-PoseDataSource" class="headerlink" title="辅助类：static public class PoseDataSource"></a>辅助类：static public class PoseDataSource</h3><p>作为GetDatafromSource方法的container。该方法将会被PoseProviders用于获取一个特定的pose。</p>
+<p><strong>属性字段</strong></p>
+<ul>
+<li>static internal List&lt;XR.XRNodeState&gt; <code>nodeStates</code></li>
+</ul>
+<p><strong>方法</strong></p>
+<ul>
+<li><p>static public PoseDataFlags <code>GetDataFromSource</code>(TrackedPoseDriver.TrackedPose poseSource, out Pose resultPose)</p>
+<p>主要方法。 根据提供的pose source从the XRNode subsystem查询数据。使用GetNodePoseData函数从XRNode中取回相应的pose信息。</p>
+</li>
+<li><p>static internal PoseDataFlags <code>GetNodePoseData</code>(XR.XRNode node, out Pose resultPose)</p>
+<p>输入XR.XRNode和输出PoseDataFlags &amp; Pose</p>
+<ul>
+<li>调用XR.InputTracking.GetNodeStates得到当前所有可追踪node的nodeState信息</li>
+<li>遍历nodeStates，对查询到nodeType等于输入XRNode时，调用nodeState的TryGetPosition/TryGetRotation得到resultPose，并且使用PoseDataFlags返回赋值情况。</li>
+<li>如果没有找到匹配项返回一个identity输出（0位置，identity旋转）和NoData的PoseDataFlag。</li>
+</ul>
+</li>
+<li><p>static public bool <code>TryGetDataFromSource</code>(TrackedPoseDriver.TrackedPose poseSource, out Pose resultPose)</p>
+<p>检测是否能够调用GetDataFromSource得到同时更新Position与Rotation的结果。</p>
+</li>
+<li><p>static PoseDataFlags <code>TryGetTangoPose</code>(out Pose pose)</p>
+<p>用于获取TangoAr的Pose信息。</p>
+</li>
+</ul>
+<hr>
+<h3 id="辅助类：internal-class-TrackedPoseDriverDataDescription"><a href="#辅助类：internal-class-TrackedPoseDriverDataDescription" class="headerlink" title="辅助类：internal class TrackedPoseDriverDataDescription"></a>辅助类：internal class TrackedPoseDriverDataDescription</h3><p><strong>类型枚举</strong></p>
+<ul>
+<li><p>internal struct <code>PoseData</code></p>
+<p>包含追踪对象名称string列表PoseNames，追踪对象TrackedPose列表Poses。将string与TrackedPose枚举一一对应。</p>
+</li>
+</ul>
+<p><strong>属性字段</strong></p>
+<ul>
+<li><p>internal static List<PoseData> <code>DeviceData</code> = new List<PoseData></p>
+<p>是PoseData的列表</p>
+<ul>
+<li><p>第一个PoseData中包括”Left Eye”, “Right Eye”, “Center Eye - HMD Reference”, “Head”, “Color Camera”</p>
+</li>
+<li><p>第二个PoseData中包括”Left Controller”, “Right Controller”</p>
+</li>
+<li><p>第三个PoseData中包括”Device Pose”</p>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/09/02/TrackedPoseDriver/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-VR_Bridges" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/09/02/VR_Bridges/">VR_Bridges</a>
+    </h1>
+  
+
+        
+        <a href="/2020/09/02/VR_Bridges/" class="archive-article-date">
+  	<time datetime="2020-09-02T13:06:29.762Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-02</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="VR-Bridges-Simulating-Smooth-Uneven-Surfaces-in-VR"><a href="#VR-Bridges-Simulating-Smooth-Uneven-Surfaces-in-VR" class="headerlink" title="VR Bridges: Simulating Smooth Uneven Surfaces in VR"></a>VR Bridges: Simulating Smooth Uneven Surfaces in VR</h1><p><img src="VR_Bridges/1_1.png" alt=""><br>使用多种physical props（物理道具）做smooth uneven surface（平滑非平坦表面）仿真：  </p>
+<ol>
+<li>使用平坦物理桥，模拟虚拟凹面桥与凸面桥（上方）</li>
+<li>使用凸面物理桥，模拟不同曲度的虚拟凸面桥（下方）</li>
+</ol>
+<hr>
+<h2 id="Abstract"><a href="#Abstract" class="headerlink" title="Abstract"></a>Abstract</h2><p>VR is often incomparable to real-world experience.<br>Walkable smooth uneven surfaces are inherent to reality but extremely lacking in VR.  </p>
+<p>Focus on human height and slant perception (倾斜知觉) of the uneven surfaces with multi-sensory stimulation in VR.<br>By employing viewport<br>manipulations, haptic (触觉), and vibrotactile stimuli（振动刺激）, we explore the possibility to simulate uneven surfaces different from the physical props used.</p>
+<p>使用rounded prop有助于制造一个高于物理装置的uneven surface的错觉。如果触觉感觉没有冲突，则多感官刺激将会使得高度和倾斜估计更接近视觉提示所建议的值。</p>
+<p>使用平坦的prop是不现实的，因为会导致强力的高度与倾斜知觉的错误，并且将与视觉提示背道而驰。不过如果曲面无法被使用，则平面可能仍然能够用于模拟小的凹凸。</p>
+<hr>
+<h2 id="Related-Work"><a href="#Related-Work" class="headerlink" title="Related Work"></a>Related Work</h2><p>Sensory integration 感觉统合将不同来源的感官整合来表现世界，而这能够改变对虚拟世界的看法。</p>
+<h3 id="Height-and-Slant-Perception"><a href="#Height-and-Slant-Perception" class="headerlink" title="Height and Slant Perception"></a>Height and Slant Perception</h3><pre><code>基本上，人们高估高度，并且从上向下看更会高估。  
+强烈的情绪状态，如唤醒、厌恶、恐惧都会增加对高度的高估。
+
+在有意识的估算时，人们也倾向于高估倾斜度。
+倾斜度高估并不依赖于视角方向，而触觉提示如果一致则可以增强视觉倾斜感知。</code></pre><h3 id="Non-ﬂat-VEs-and-Haptics"><a href="#Non-ﬂat-VEs-and-Haptics" class="headerlink" title="Non-ﬂat VEs and Haptics"></a>Non-ﬂat VEs and Haptics</h3><pre><code>Uneven surfaces 与 corresponding haptic sensations 是现实世界多感官表达的重要组分。
+
+四种模拟非平面的camera manipulation techniques：
+1. 调整虚拟相机高度以maintaining相应的非平面
+2. 根据surface的tangent调整camera的pitch
+3. 调整摄像机的速度
+4. 结合所有三种方式
+
+使用electro-mechanical devices创造物理改变的世界：
+1. 追踪用户的脚并且将其转送的中间位置
+2. 结合camera manipulation和passive haptic stimulation创造无限的楼梯井
+3. 使用multi-sensory stimulation platform，根据音频振动</code></pre><h3 id="Multi-Sensory-Stimulation-for-VR"><a href="#Multi-Sensory-Stimulation-for-VR" class="headerlink" title="Multi-Sensory Stimulation for VR"></a>Multi-Sensory Stimulation for VR</h3><pre><code>多感官有利于营造沉浸感。不同来源的感觉信息可能造成感官失调，但经过精心设计，感官失调可能有利于VR体验：
+1. camera view manipulations for height simulation
+2. space compression via redirection
+3. 地板震动通过震动传到头部，可能用来改变触觉、本体感觉和前庭系统</code></pre><h3 id="Locomotion-and-Redirection"><a href="#Locomotion-and-Redirection" class="headerlink" title="Locomotion and Redirection"></a>Locomotion and Redirection</h3><pre><code>1. 使用灰色overlay覆盖几帧，悄悄重定位virtual camera
+2. 在使用者被蜂鸟分心时进行旋转
+RDW has a Free Toolkit in Unity 3D</code></pre><hr>
+<h2 id="General-Design"><a href="#General-Design" class="headerlink" title="General Design"></a>General Design</h2><p>选用桥进行研究是因为：</p>
+<ol>
+<li>是一个可悲integrated into VR的现实物体。</li>
+<li>提供了上升与下降</li>
+<li>physical props能够提供安全保障</li>
+</ol>
+<p>研究方向：visual height, camera pitch manipulation, vibrotactile stimulation</p>
+<p>假设：</p>
+<ol>
+<li>uneven physical surface will allow for larger height manipulations</li>
+<li>Pitch manipulation will increase the perceived slant, especially with uneven physical surface</li>
+</ol>
+<p>实验设计：</p>
+<ol>
+<li>within-participants experimental design</li>
+<li>several visual heights and all possible combinations with the other binary independent variables</li>
+</ol>
+<h3 id="Virtual-Environment"><a href="#Virtual-Environment" class="headerlink" title="Virtual Environment"></a>Virtual Environment</h3><p>具有环境声音：海浪声，鸟叫声，以辅助沉浸体验与掩盖无关声音</p>
+<p>避免使用逼真的视觉效果来获得更好的帧速率，因为视觉效果对存在感和记忆的形成没有深远的影响。</p>
+<p>对于虚拟桥梁，我们使用了一个自制的桥梁模型，可以精确地参数化桥梁的高度、长度、宽度和弯曲度。它允许用户精确地控制桥梁的视觉形状以及相应的摄像机高度和方向控制。当从一个岛走到另一个岛时，参与者正在跨越虚拟桥。每个虚拟桥都有一个独特的操纵组合。同时，在现实世界中，参与者被重新引导回同一个物理桥上。</p>
+<h3 id="Physical-Bridges"><a href="#Physical-Bridges" class="headerlink" title="Physical Bridges"></a>Physical Bridges</h3><p>3m长，55cm宽，90cm栏杆。为了更好的传递音波，在桥下放置了金属板，声音传感器直接与金属接触。</p>
+<h3 id="Manipulation"><a href="#Manipulation" class="headerlink" title="Manipulation"></a>Manipulation</h3><p>使用了multi-sensory stimulation。</p>
+<ol>
+<li>height &amp; pitch rotation of the viewport</li>
+<li>vibrotactile stimuli</li>
+<li>passive haptic feedback of stepping on/off &amp; touching the railings</li>
+</ol>
+<ul>
+<li><p>Height Adjustment</p>
+<blockquote>
+<p>在脊椎上放置了定位器，其定位比头部更加稳定，而比基于脚更加可靠。这带来了adequate height adjustment，并允许用户自由的与环境互动而不带有visual artifacts.<br>  此外，手持控制器也能够进行同步高度调整</p>
+</blockquote>
+</li>
+<li><p>Pitch Manipulation</p>
+<blockquote>
+<p>representing real bridge center-line与虚拟桥切线的夹角。有缓慢的过渡区域，防止忽然的方向转变。在测试后，把pitch manipulation减小为tangent line和real bridge center line夹角的50%。<br>  当视线与桥中线平行时附加角度最大，当视线与桥中线垂直时附加角度最小。</p>
+</blockquote>
+</li>
+<li><p>Vibrotactile Stimuli</p>
+</li>
+</ul>
+<blockquote>
+<p>使用audio transducer实现vibrotactile stimuli，作为输入信号，使用uniform sound wave音频文件，最终选用了40Hz。根据不同的桥，使用了不同的放大程度。</p>
+</blockquote>
+<ul>
+<li><p>Redirection</p>
+<blockquote>
+<p>使用Walking Toolkit实现redirection，伪装成pop the balloons游戏。彩色的气球依次为随机的产生，基于当前最大的重定向可能。</p>
+</blockquote>
+<blockquote>
+<p>首先采用了steer-to-center类型的redirection，这在参与者环顾四周的气球并且走向它们时被应用。set the gains’ thresholds to the 50% </p>
+</blockquote>
+<blockquote>
+<p>其次，结合了blindness和optical flow simulation引入了额外的重定向，当参与者将其视角放在气球上触摸气球时，气球相对于virtual camera的位置被存储，同时额外的旋转（小于5度）和平移（小于30cm）被施加给camera以达成redirection。Particle emission center也和camera一起移动，以保证不会被察觉。</p>
+</blockquote>
+</li>
+<li><p>Measures</p>
+<blockquote>
+<p>在桥的中间和终点，两次要求参与者估计虚拟桥的高度。在桥上，我们要求他们用一个简单的水平滑块预测厘米级的高度。<br>  在岛上，我们创建了一个reporting station，首先参与者会要求使用垂直化快估计桥高；随后我们让参与者倾斜一个中立的垂直板去表达在桥上走过的最大倾斜角</p>
+</blockquote>
+</li>
+</ul>
+<hr>
+<h2 id="General-Procedure"><a href="#General-Procedure" class="headerlink" title="General Procedure"></a>General Procedure</h2><p>参与者在实验结束前将不会看到工作场地</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/09/02/VR_Bridges/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-faster-r-cnn" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -441,7 +802,7 @@ for object detection"></p>
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 John Doe
+    		&copy; 2020 Suika
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
