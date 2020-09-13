@@ -6,13 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | Hexo</title>
+  <title>log0913 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="VR开发日志0913通过给视角施加旋转增加地面倾斜的感受。 使用Colldier触点的normal与Vector3.up作为标准进行实验。  问题一：Capsule Collider将产生多个触点。尝试1：将多触点的normal求和后做Normalize作为目标的up。  该尝试目前看来没用造成太大问题。  尝试2：改变算法，使用Physics.raycast从胶囊体中心向下投射线，检测2米内的物">
+<meta property="og:type" content="article">
+<meta property="og:title" content="log0913">
+<meta property="og:url" content="http://yoursite.com/2020/09/13/log0913/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="VR开发日志0913通过给视角施加旋转增加地面倾斜的感受。 使用Colldier触点的normal与Vector3.up作为标准进行实验。  问题一：Capsule Collider将产生多个触点。尝试1：将多触点的normal求和后做Normalize作为目标的up。  该尝试目前看来没用造成太大问题。  尝试2：改变算法，使用Physics.raycast从胶囊体中心向下投射线，检测2米内的物">
 <meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-09-13T14:58:46.300Z">
+<meta property="article:modified_time" content="2020-09-13T14:56:03.756Z">
 <meta property="article:author" content="Suika">
 <meta name="twitter:card" content="summary">
   
@@ -150,157 +154,183 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-log0913" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      log0913
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/13/log0913/" class="archive-article-date">
+
+        
+        <a href="/2020/09/13/log0913/" class="archive-article-date">
   	<time datetime="2020-09-13T14:58:46.300Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-13</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/13/log0913/">log0913</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="VR开发日志0913"><a href="#VR开发日志0913" class="headerlink" title="VR开发日志0913"></a>VR开发日志0913</h1><p>通过给视角施加旋转增加地面倾斜的感受。</p>
+<p>使用Colldier触点的normal与Vector3.up作为标准进行实验。</p>
+<hr>
+<h3 id="问题一：Capsule-Collider将产生多个触点。"><a href="#问题一：Capsule-Collider将产生多个触点。" class="headerlink" title="问题一：Capsule Collider将产生多个触点。"></a>问题一：Capsule Collider将产生多个触点。</h3><p>尝试1：将多触点的normal求和后做Normalize作为目标的up。</p>
+<ul>
+<li>该尝试目前看来没用造成太大问题。</li>
+</ul>
+<p>尝试2：改变算法，使用Physics.raycast从胶囊体中心向下投射线，检测2米内的物体，获取其Normal作为最终目标向量。</p>
+<ul>
+<li>当前使用该方案，实际上人有双脚，而该检测方法仅有一个点，然而Capsule Collider检测触点似乎更加不符合实际情况。后续可以测试两种方案的效果优劣。</li>
+</ul>
+<hr>
+<h3 id="问题二：如何计算旋转四元数"><a href="#问题二：如何计算旋转四元数" class="headerlink" title="问题二：如何计算旋转四元数"></a>问题二：如何计算旋转四元数</h3><p>尝试1：使用Quaternion FromToRotation求Vector3.up到normal的旋转。</p>
+<ul>
+<li>从理论来看，该种实现可以想象为从fromDirection画圆弧直接到达toDirection。</li>
+<li>出现问题：拱桥上与预想状况不同，在非正方向的倾斜变成了歪斜。解决方法：这是由于四元数乘法顺序错误所致，目前看来四元数乘法从右向左的顺序应当是逻辑先后顺序。修改后正确。</li>
+</ul>
+<p>尝试2：理论上，有多种四元数能够使得向量从from变换到to。除了直接弧度旋转外，还可以选择部分方法保留原本的foward、right的部分信息。</p>
+<ul>
+<li>当前采用尝试1，需要深入对四元数的认识，比较计算方法的效果优劣。</li>
+</ul>
+<hr>
+<h3 id="问题三：物体交界处会产生剧变"><a href="#问题三：物体交界处会产生剧变" class="headerlink" title="问题三：物体交界处会产生剧变"></a>问题三：物体交界处会产生剧变</h3><p>尝试1：拆分device提供的rotation与地面倾斜提供的rotation。进行三种处理：</p>
+<ol>
+<li>将groundRotation与identity quaternion做Lerp，取其的插值结果作为目标倾倒方向。</li>
+<li>记录当前groundRotation为previousGroundRotation，每一次更新将previous与当前做比例较小的Lerp插值。（非常有效的改善该问题，参数代实验优化）</li>
+<li>可以考虑加入恢复速率，在现实中人在遇到倾斜面时会自动恢复自己的视线平行。通过每次更新向identical做Lerp缓慢回复视角可能有较好虚拟效果。（待实现）</li>
+</ol>
 
-        <div class="article-info info-on-right">
-          
-          
+      
 
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
+        </div>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//pan.baidu.com/share/qrcode?url=http://yoursite.com/2020/09/13/log0913/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/02/TrackedPoseDriver/" class="archive-article-date">
-  	<time datetime="2020-09-02T13:07:16.601Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-02</time>
-</a>
+<nav id="article-nav">
+  
+  
+    <a href="/2020/09/02/TrackedPoseDriver/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">TrackedPoseDriver</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/02/TrackedPoseDriver/">TrackedPoseDriver</a>
-    </h1>
+  
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/09/02/VR_Bridges/" class="archive-article-date">
-  	<time datetime="2020-09-02T13:06:29.762Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-09-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/09/02/VR_Bridges/">VR_Bridges</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/08/24/faster-r-cnn/" class="archive-article-date">
-  	<time datetime="2020-08-24T14:25:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-08-24</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/08/24/faster-r-cnn/">&#39;faster_r_cnn&#39;</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/07/06/hello-world/" class="archive-article-date">
-  	<time datetime="2020-07-06T11:07:18.167Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/07/06/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -323,8 +353,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
