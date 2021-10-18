@@ -1,89 +1,120 @@
+<!-- 整体的框架 -->
+
 <template>
-  <el-row :gutter="20">
-    <el-col :span="12" :offset="6">
-      <div class="grid-content">
-          <el-col :span="8">
-            <el-card shadow="hover">
-              鼠标悬浮时显示
-            </el-card>
-          </el-col>
-        <el-card class="box-card">
-        <div slot="header" class="clearfix">
-          <span>Stenography水印添加</span>
-        </div>
-        <div class="text item">
-          <UploadPond></UploadPond>
-        </div>
-      </el-card>
-      </div>
-    </el-col>
-  </el-row>
+    <a-layout>
+        <!-- 首屏 -->
+        <a-layout-header class="layout-header"><Banner/></a-layout-header>
+        <!-- 内容 -->
+        <a-layout>
+            <!-- 菜单 -->
+            <a-layout-sider class="layout-sider" width="320"><a-affix><Menu/></a-affix></a-layout-sider>
+            <!-- 正文部分 -->
+            <a-layout class="layout-content">
+                <!-- 小屏侧边栏抽屉按钮 -->
+                <a-affix>
+                    <a-button :class="{'sider-menu-trigger': true, 'drawer-closed': !menuDrawerVisible, 'drawer-open': menuDrawerVisible}"
+                            shape="circle" size="large" :icon="menuDrawerVisible ? 'arrow-left' : 'bars'" @click="toggleMenuDrawer"></a-button>
+                </a-affix>
+                <!-- 正文锚点 -->
+                <a-layout-content><div id="anchor-next"></div></a-layout-content>
+                <!-- 根据配置动态模块的内容和顺序 -->
+                <a-layout-content v-for="id in moduleIds" v-bind:key="id">
+                    <About v-if="id === 'about'"/>
+                    <Blog v-if="id === 'blog'"/>
+                    <Experience v-if="id === 'experience'"/>
+                </a-layout-content>
+                <!-- 页脚 -->
+                <a-layout-footer><Footer/></a-layout-footer>
+            </a-layout>
+        </a-layout>
+
+        <!-- 小屏侧边栏抽屉 -->
+        <a-drawer placement="left" :closable="true" :visible="menuDrawerVisible" @close="onMenuDrawerClose">
+            <Menu @menuClick="onMenuDrawerClose" />
+        </a-drawer>
+    </a-layout>
 </template>
 
-<script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-import UploadBox from '@/components/UploadBox.vue'
-import UploadPond from '@/components/UploadPond.vue'
+<script lang="ts">
+    import {Component, Vue} from 'vue-property-decorator';
+    import {mapGetters} from 'vuex';
 
-export default {
-  name: 'Home',
-  components: {
-    HelloWorld,
-    UploadBox,
-    UploadPond,
-  }
-}
+    import Banner from '@/components/Banner.vue';
+    import Menu from '@/components/Menu.vue';
+    import About from '@/components/About.vue';
+    import Experience from '@/components/Experience.vue';
+    import Blog from '@/components/Blog.vue';
+    import Footer from '@/components/Footer.vue';
+
+    @Component({
+        components: {
+            Banner,
+            Menu,
+            About,
+            Experience,
+            Blog,
+            Footer,
+        },
+        computed: {
+            ...mapGetters(['moduleIds']),
+        },
+    })
+    export default class Home extends Vue {
+        private menuDrawerVisible = false;
+
+        private toggleMenuDrawer() {
+            this.menuDrawerVisible = !this.menuDrawerVisible;
+        }
+
+        private onMenuDrawerClose() {
+            this.menuDrawerVisible = false;
+        }
+    }
 </script>
 
-<style>
-  .el-row {
-    margin-bottom: 20px;
-  }
-  .el-row {
-    margin-bottom: 0;
-  }
-  .el-col {
-    border-radius: 4px;
-  }
-  .bg-purple-dark {
-    background: #99a9bf;
-  }
-  .bg-purple {
-    background: #d3dce6;
-  }
-  .bg-purple-light {
-    background: #e5e9f2;
-  }
-  .grid-content {
-    border-radius: 4px;
-    min-height: 36px;
-  }
-  .row-bg {
-    padding: 10px 0;
-    background-color: #f9fafc;
-  }
-</style>
+<style scoped lang="scss">
+    @import '../styles/variable';
 
-<style>
-  .text {
-    font-size: 14px;
-  }
+    .layout-header {
+        z-index: 0;
+        height: 100vh;
+        overflow: auto;
+        padding: 0;
+    }
 
-  .item {
-    margin-bottom: 18px;
-  }
+    .layout-content {
+        position: relative;
+    }
 
-  .clearfix:before,
-  .clearfix:after {
-    display: table;
-    content: "";
-  }
-  .clearfix:after {
-    clear: both
-  }
+    .sider-menu-trigger {
+        position: absolute;
+        top: 20px;
+        z-index: 99999;
 
-  /* .box-card {
-    width: 480px;
-  } */
+
+        &.drawer-closed {
+            left: 20px;
+        }
+
+        &.drawer-open {
+            left: 276px;
+        }
+    }
+
+    @media screen and (max-width: $--screen-sm-min) {
+        .layout-sider {
+            display: none;
+        }
+    }
+
+    @media screen and (min-width: $--screen-sm-min) {
+        .sider-menu-trigger {
+            display: none;
+        }
+
+        .layout-sider {
+            box-shadow: 1px 0 5px #e0e0e0;
+            z-index: 999;
+        }
+    }
 </style>
