@@ -2,12 +2,10 @@
 
 <template>
     <a-layout>
-        <!-- 首屏 -->
-        <a-layout-header class="layout-header"><Banner/></a-layout-header>
         <!-- 内容 -->
         <a-layout>
             <!-- 菜单 -->
-            <a-layout-sider class="layout-sider" width="320"><a-affix><Menu atwork="0"/></a-affix></a-layout-sider>
+            <a-layout-sider class="layout-sider" width="320"><a-affix><Menu atwork="1"/></a-affix></a-layout-sider>
             <!-- 正文部分 -->
             <a-layout class="layout-content">
                 <!-- 小屏侧边栏抽屉按钮 -->
@@ -18,10 +16,8 @@
                 <!-- 正文锚点 -->
                 <a-layout-content><div id="anchor-next"></div></a-layout-content>
                 <!-- 根据配置动态模块的内容和顺序 -->
-                <a-layout-content v-for="id in moduleIds" v-bind:key="id">
-                    <About v-if="id === 'about'"/>
-                    <Blog v-if="id === 'blog'"/>
-                    <Experience v-if="id === 'experience'"/>
+                <a-layout-content>
+                    <Workpiece :id="$route.params.id"/>
                 </a-layout-content>
                 <!-- 页脚 -->
                 <a-layout-footer><Footer/></a-layout-footer>
@@ -45,6 +41,7 @@
     import Experience from '@/components/Experience.vue';
     import Blog from '@/components/Blog.vue';
     import Footer from '@/components/Footer.vue';
+    import Workpiece from '@/components/Workpiece.vue';
 
     @Component({
         components: {
@@ -54,6 +51,7 @@
             Experience,
             Blog,
             Footer,
+            Workpiece,
         },
         computed: {
             ...mapGetters(['moduleIds']),

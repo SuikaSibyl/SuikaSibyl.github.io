@@ -3,8 +3,9 @@
 <template>
     <div class="content" id="experience">
         <ModuleHeader :title="experience.header.title" :sub-title="experience.header.subtitle"/>
-        <a-timeline>
-            <a-timeline-item data-aos="fade-in" v-for="card in experience.cards" v-bind:key="card.title + card.subtitle">
+        <a-timeline mode="alternate">
+            <a-timeline-item ref="test" data-aos="fade-in" v-for="(card, index) in experience.cards" v-bind:key="card.title + card.subtitle" 
+            :position="card.is_left?'right':'left'">
                 <a-card class="experience-card" :bordered="true" style="width: 100%">
                     <template slot="title">
                         <h1 class="title">{{card.title}}</h1>
@@ -18,7 +19,7 @@
 </template>
 
 <script lang="ts">
-    import {Component, Vue} from 'vue-property-decorator';
+    import {Component, Vue, Prop} from 'vue-property-decorator';
     import ModuleHeader from '@/components/module/ModuleHeader.vue';
     import {Module} from '@/api/user_interface';
     // tslint:disable-next-line:no-var-requires
@@ -34,6 +35,7 @@
                 return this.$store.getters.getModule('experience');
             },
         },
+
     })
     export default class About extends Vue {
     }

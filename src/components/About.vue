@@ -5,10 +5,6 @@
         <ModuleHeader :title="about.header.title" :sub-title="about.header.subtitle"/>
         <!-- <ModuleSkeleton :display="true" :number="2" /> -->
         <a-row type="flex" justify="center" align="top">
-            <!-- 头像 -->
-            <a-col class="col" :xs="24" :sm="24" :md="24" :lg="10" :xl="8">
-                <img data-aos="fade-in" class="avatar" draggable="false" src="../assets/about/avatar_about.jpg"/>
-            </a-col>
             <!-- 内容 -->
             <a-col class="color-content col" :xs="24" :sm="24" :md="24" :lg="14" :xl="16">
                 <!-- title -->
@@ -16,7 +12,7 @@
                 <!-- 简介 -->
                 <span data-aos="fade-in" class="brief typer black">
                     {{about.content.name}}，
-                    <vue-typer :text="about.content.desc || '林舍'" :type-delay='200' eraseStyle='select-all'></vue-typer>
+                    <vue-typer :text="about.content.desc || 'Haolin LU'" :type-delay='200' eraseStyle='select-all'></vue-typer>
                 </span>
                 <!-- 正文 -->
                 <vue-markdown data-aos="fade-in">{{about.content.md}}</vue-markdown>

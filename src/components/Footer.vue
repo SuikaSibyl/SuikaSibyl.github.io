@@ -9,7 +9,7 @@
             <a-popover arrowPointAtCenter>
                 <template slot="content"><Badge/></template>
                 <span class="avatar ant-avatar ant-avatar-circle ant-avatar-image">
-                    <img alt="林舍|Maner·Fan" draggable="false" src="../assets/avatar.jpg"/>
+                    <img alt="Haolin LU|Maner·Fan" draggable="false" src="../assets/avatar.jpg"/>
                 </span>
             </a-popover>
         </a-col>

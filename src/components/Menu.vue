@@ -7,7 +7,7 @@
             <span class="avatar ant-avatar ant-avatar-circle ant-avatar-image">
                 <img draggable="false" src="../assets/avatar.jpg">
             </span>
-            <span>{{banner.name|| '林中小舍'}}</span>
+            <span>{{banner.name|| 'Haolin LU'}}</span>
         </div>
         <!-- 菜单 -->
         <a-layout-content class="menu">
@@ -15,7 +15,8 @@
                 <!-- 根据配置动态模块的内容和顺序 -->
                 <a-menu-item v-for="m in menus" v-bind:key="m.id">
                     <a-icon :type="m.icon" />
-                    <a v-smooth-scroll :href="'#' + m.id" @click="closeMenuDrawer">{{m.name}}</a>
+                    <a v-if="atwork==0" v-smooth-scroll :href="'#' + m.id" @click="closeMenuDrawer">{{m.name}}</a>
+                    <a v-if="atwork==1" :href="'../../#' + m.id" @click="closeMenuDrawer">{{m.name}}</a>
                 </a-menu-item>
             </a-menu>
         </a-layout-content>
@@ -34,7 +35,7 @@
 </template>
 
 <script lang="ts">
-    import {Component, Vue} from 'vue-property-decorator';
+    import {Component, Vue, Prop} from 'vue-property-decorator';
     import Copyrights from '@/components/footer/Copyrights.vue';
     import Social from '@/components/footer/Social.vue';
     import {mapGetters} from 'vuex';
@@ -49,6 +50,8 @@
         },
     })
     export default class Menu extends Vue {
+        @Prop(Number) public readonly atwork: number | undefined;
+
         private closeMenuDrawer() {
             this.$emit('menuClick');
         }
