@@ -19,7 +19,6 @@
                     <a v-if="atwork==1" :href="'../../#' + m.id" @click="closeMenuDrawer">{{m.name}}</a>
                 </a-menu-item>
             </a-menu>
-             <a href="about">hello</a>
 
         </a-layout-content>
         <!-- 菜单页脚 -->
