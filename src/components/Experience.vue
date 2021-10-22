@@ -12,6 +12,11 @@
                         <span v-if="!!card.subtitle" class="sub-title">{{card.subtitle}}</span>
                     </template>
                     <vue-markdown>{{card.md}}</vue-markdown>
+                    <a :href="'work/'+card.id">
+                    <a-button type="primary">
+                        Learn more
+                    </a-button>
+                    </a>
                 </a-card>
             </a-timeline-item>
         </a-timeline>

@@ -95,6 +95,19 @@
           \n四年象牙塔生活很充实，也第一次感受到了四年同寝离别时的伤感之情\
           \n",
         },
+        {
+          title: "Compute Animation Practice",
+          subtitle: "Nov 2020 - Dec 2020",
+          is_left: true,
+          id: 1,
+          md: "\
+          \n Built an application with GUI based on Qt & OpenGL, implemented 2D spline and 3D mesh adjustment, \
+          according to Cardinal Spline & Free-form Deformation\
+          \n\n Realized real-time rendering of implicit function based on ray marching (60+fps) in OpenGL fragment shader \
+          with techniques like ray marching and AABB box, adopted an adaptive dynamic step-length to render efficiently\
+          \n\n Used an interpolation of implicit functions to realize a smooth 3D morphing \
+          \n",
+        },
       ],
     },
     // 博客页

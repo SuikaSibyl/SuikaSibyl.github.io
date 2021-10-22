@@ -5,7 +5,7 @@
         <!-- 内容 -->
         <a-layout>
             <!-- 菜单 -->
-            <a-layout-sider class="layout-sider" width="320"><a-affix><Menu atwork="1"/></a-affix></a-layout-sider>
+            <a-layout-sider class="layout-sider" width="320"><a-affix><Menu :atwork="1"/></a-affix></a-layout-sider>
             <!-- 正文部分 -->
             <a-layout class="layout-content">
                 <!-- 小屏侧边栏抽屉按钮 -->
@@ -17,7 +17,7 @@
                 <a-layout-content><div id="anchor-next"></div></a-layout-content>
                 <!-- 根据配置动态模块的内容和顺序 -->
                 <a-layout-content>
-                    <Workpiece :id="$route.params.id"/>
+                    <Workpiece :id="parseInt($route.params.id)"/>
                 </a-layout-content>
                 <!-- 页脚 -->
                 <a-layout-footer><Footer/></a-layout-footer>
