@@ -104,12 +104,44 @@
           Mainly use Mask-RCNN to frag the foreground and background, and stylize the background part only.",
         },
         {
+          title: "Photography Works",
+          subtitle: "October 2019 - December 2019",
+          is_left: false,
+          id: 5,
+          md: "\
+          \n Photography works in late 2019, all shoted in Hangzhou using Canon EOS M6.",
+        },
+        {
+          title: "Image Processing Library",
+          subtitle: "November 2019 - December 2019",
+          is_left: true,
+          id: 7,
+          md: "\
+          \n C++ implementation of digital image processing. Including several functions.",
+        },
+        {
+          title: "Video Invisible Digital Watermark",
+          subtitle: "November 2019 - November 2019",
+          is_left: true,
+          id: 6,
+          md: "\
+          \n Matlab invisible digital watermark for mp4 video.",
+        },
+        {
           title: "Plane Formation (on paper)",
           subtitle: "August 2019 - October 2019",
           is_left: false,
           id: 3,
           md: "\
           \n On paper plane formation artworks, all original designed.",
+        },
+        {
+          title: "Watercolor Works(on paper)",
+          subtitle: "November 2018 - December 2018",
+          is_left: false,
+          id: 8,
+          md: "\
+          \n Watercolor works drawn in late 2018.",
         },
       ],
     },

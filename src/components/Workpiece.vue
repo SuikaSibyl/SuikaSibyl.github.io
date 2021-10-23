@@ -144,6 +144,78 @@ export default class YourComponent extends Vue {
                           {href: "https://i.loli.net/2021/10/23/opcURETMPuwzGrh.png"}, ],
                 videos:[ ],
             },
+            {
+                id: '05',
+                name: 'Photography Works (Selected)',
+                md: "\ Using Canon EOS M6 Camera, all shoted in Hangzhou, China.",
+                images: [ {href: "https://i.loli.net/2021/10/23/FjWvlpqgbncDo8i.jpg"},
+                          {href: "https://i.loli.net/2021/10/23/Lcd1EfhyXlx5zOH.jpg"},
+                          {href: "https://i.loli.net/2021/10/23/nARaJzQ3H4gGp6b.jpg"},
+                          {href: "https://i.loli.net/2021/10/23/oZfdNiRuTJqlOBs.jpg"},
+                          {href: "https://i.loli.net/2021/10/23/VpkBD5NWS1UwEAz.jpg"},
+                          {href: "https://i.loli.net/2021/10/23/G7NMVn6tZmOwDQi.jpg"},
+                          {href: "https://i.loli.net/2021/10/23/cTYf7JM3LOVUSyN.jpg"},
+                          {href: "https://i.loli.net/2021/10/23/1GkmDKPVbgoascB.jpg"}, ],
+                videos:[ ],
+            },
+            {
+                id: '06',
+                name: 'Video Invisible Digital Watermark',
+                md: '# **Visit Github page**: [SuikaSibyl-VideoDigitalWatermarker](https://github.com/SuikaSibyl/VideoDigitalWatermarker)\
+                    \nMatlab invisible digital watermark for mp4 video.\
+                    \nUse DCT decompose to embed black-white color image to paras, and recover by IDCT.\
+                    \nThe robustness is tested by inserting all kinds of noise attack, the watermark is basically reserved.',
+                images: [ {href: "https://i.loli.net/2021/10/23/Kls8gEpSnwTHvXY.jpg"}, ],
+                videos:[ ],
+            },
+            {
+                id: '07',
+                name: 'Image Processing Library',
+                md: '# **Visit Github page**: [SuikaSibyl-ImageProcessing](https://github.com/SuikaSibyl/ImageProcessing)\
+                    \n\
+                    \nC++ library for digital image processing.\
+                    \n\
+                    \nInclude:\
+                    \n\
+                    \n- Binarization\
+                    \n\t- Otsu\
+                    \n\t- Niblack\
+                    \n- Morphology\
+                    \n\t- Erosion\
+                    \n\t- Dilation\
+                    \n\t- Opening\
+                    \n\t- Closing\
+                    \n\
+                    \n- Histogram Manipulation\
+                    \n\t- Histogram Equalization\
+                    \n\t- Histogram Specification\
+                    \n- Transform\
+                    \n\t- Translation\
+                    \n\t- Rotation\
+                    \n\t- Scale\
+                    \n\t- Shear\
+                    \n\t- Mirror\
+                    \n- Filtering\
+                    \n\t- Image mean filtering\
+                    \n\t- Laplacian image enhancement\
+                    \n\t- BilateralFiltering\
+                    \n\
+                    ',
+                images: [ {href: "https://i.loli.net/2021/10/23/fkIcpvDaMWCqGn2.png"}, ],
+                videos:[ ],
+            },
+            {
+                id: '08',
+                name: 'Watercolor Works (Selected)',
+                md: '\
+                    \nWatercolor works drawn in late 2018.',
+                images: [ {href: "https://i.loli.net/2021/10/23/HbYW3q46um8ZK5g.jpg"},
+                          {href: "https://i.loli.net/2021/10/23/nYljhQCg1rDMKAN.jpg"},
+                          {href: "https://i.loli.net/2021/10/23/ehQfG2CYLSbX1pA.jpg"}, 
+                          {href: "https://i.loli.net/2021/10/23/lmP1boXuaTSk6Dj.jpg"}, 
+                          {href: "https://i.loli.net/2021/10/23/NjXUyoAaVbgLkie.jpg"},],
+                videos:[ ],
+            },
             ]
         }
     }
