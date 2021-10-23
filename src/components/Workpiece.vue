@@ -1,6 +1,8 @@
 <!-- 经历 -->
 
 <template>
+
+
     <div class="content" id="workpiece">
         <div v-for="item in workdatas.works" v-if="item.id==id">
             <div class="content about" id="about">
@@ -17,7 +19,9 @@
                             alt="example"
                             :src="image.href"
                         />
-                        <iframe id="myiframe" v-for="video in item.videos" :src="video.src" width="100%" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" height="500px"> </iframe>
+                        <div class="aspect-ratio" v-for="video in item.videos">
+                            <iframe id="myiframe" :src="video.src" width="100%" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" height="500px"> </iframe>
+                        </div>
                     </a-col>
                 </a-row>
             </div>
@@ -84,21 +88,85 @@ export default class YourComponent extends Vue {
             },
             {
                 id: '01',
-                name: 'Free Form Deformation',
-                md: '# **Visit Github page**: [SuikaSibyl-FreeFormDeformation](https://github.com/SuikaSibyl/FreeFormDeformation)\
-                    \nFFD in Qt + OpenGL with simple animation & dynamic mesh.',
-                images: [{href: "https://i.loli.net/2021/10/22/cCxDKugFLUGianE.png"}, ],
+                name: 'Implicit Function RayMarcher',
+                md: '# **Visit Github page**: [SuikaSibyl-ImplicitFunctionRayMarcher](https://github.com/SuikaSibyl/ImplicitFunctionRayMarcher)\
+                    \nOpenGL renderer of implicit function, with interpolation morphing animation.\
+                    \n- The algorithm is based on paper *Real-Time Ray Tracing of Implicit Surfaces on the GPU*\
+                    \n- Ray marching is implemented in Fragment Shader, with simple lighting & shadowing.\
+                    \n- FPS > 60fps on RTX 2070s.\
+                    \n- 3D morphing by interpolation between two implicit functions.\
+                    \n- Blob version of some basic mesh',
+                images: [ ],
                 videos:[{src: "//player.bilibili.com/player.html?aid=933726032&bvid=BV1MT4y1Z7UR&cid=429257109&page=1"},],
             },
             {
                 id: '02',
-                name: 'Dick'
+                name: 'Android Application: Camerartist',
+                md: '# **Visit Github page**: [SuikaSibyl-Camerartist](https://github.com/SuikaSibyl/android_camerartist)\
+                    \n This is an Android Application, on which you can stylize your photo taken to various style. For example, you can change the background to \'*the Great Wave*\' or simply grayscale.\
+                    \n To finish this application, I use three great repository:\
+                    \n\
+                    \n 1. [Mask RCNN](https://github.com/matterport/Mask_RCNN)\
+                    \n 2. [fast-style-transfer](https://github.com/lengstrom/fast-style-transfer)\
+                    \n 3. [Camera2Basic](https://github.com/googlearchive/android-Camera2Basic)\
+                    \n\
+                    \n Also, if you want to run server on your computer, Mask RCNN & fast-style-transfer are needed.\
+                    ',
+                images: [ ],
+                videos:[{src: "//player.bilibili.com/player.html?aid=591232377&bvid=BV1kq4y197f9&cid=429420909&page=1"},],
+            },
+            {
+                id: '03',
+                name: 'Plane Formation',
+                md: '# On paper plane formation artworks, all original designed.\
+                    ',
+                images: [ {href: "https://i.loli.net/2021/10/23/QXpbJdTa9qc2WPl.png"},
+                          {href: "https://i.loli.net/2021/10/23/vsXxmVglMoAdYn2.png"},
+                          {href: "https://i.loli.net/2021/10/23/jn74uLzUdWkaV9X.png"},
+                          {href: "https://i.loli.net/2021/10/23/DfMRiIVBO23Nbnz.png"},
+                          {href: "https://i.loli.net/2021/10/23/MUwqdLYJORotBfZ.png"},
+                          {href: "https://i.loli.net/2021/10/23/LMF4N6ZvlkHrjy2.jpg"},
+                          {href: "https://i.loli.net/2021/10/23/ujrlSd3pQLmBxM7.png"}, ],
+                videos:[ ],
+            },
+            {
+                id: '04',
+                name: 'Charcater Modeling',
+                md: "\
+                    \n Character Modeling, using Maya, ZBrush, Marvelous Designer, Substance Designer.\
+                    The character design is Roberta from manga \'Black Laggon\'. The modeling is done from zero.",
+                images: [ {href: "https://i.loli.net/2021/10/23/7O9JG3LTdzfwuin.png"},
+                          {href: "https://i.loli.net/2021/10/23/mUYPrNWqX5nQ1Tu.png"},
+                          {href: "https://i.loli.net/2021/10/23/JVPRwDgu6qUYGmr.png"},
+                          {href: "https://i.loli.net/2021/10/23/lGgk564MKYBXev9.png"},
+                          {href: "https://i.loli.net/2021/10/23/wbn369uU2DGxHje.png"},
+                          {href: "https://i.loli.net/2021/10/23/BCMcXiIph73eYF8.png"},
+                          {href: "https://i.loli.net/2021/10/23/opcURETMPuwzGrh.png"}, ],
+                videos:[ ],
             },
             ]
         }
     }
 }
 </script>
+
+
+<style type="text/css">
+    .aspect-ratio {
+        position: relative;
+        width: 100%;
+        height: 0;
+        padding-bottom: 75%;
+    }
+
+.aspect-ratio iframe {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+}
+</style>
 
 <style scoped lang="scss">
     @import '../styles/variable';

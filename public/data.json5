@@ -71,29 +71,13 @@
       },
       cards: [
         {
-          title: "西安电子科技大学",
-          subtitle: "2010-09 至 2013-04",
-          is_left: true,
-          md: "**<u>研究生</u>**\
-          \n\
-          \n<!--**专业**：电路与系统-->\
-          \n\
-          \n惧怕过早接触社会选择了读研\
-          \n三年研究生涯对于(课题)研究的 **<u>意义</u>** 有了更深层次的理解\
-          \n由于自己的原因并没有继续读博，虽向往，但无悔",
-        },
-        {
-          title: "西安电子科技大学",
-          subtitle: "2016-09 至 2010-09",
+          title: "Charcater Modeling",
+          subtitle: "March 2021 - April 2021",
           is_left: false,
-          md: "**<u>本科生</u>**\
-          \n\
-          \n<!--**专业**：电子信息工程-->\
-          \n\
-          \n第一次背井离乡，站了一个晚上的火车，远赴千里之外求学\
-          \n踏进校园的一刻很激动，第一天晚上心口刺痛的时候就开始想家了\
-          \n四年象牙塔生活很充实，也第一次感受到了四年同寝离别时的伤感之情\
-          \n",
+          id: 4,
+          md: "\
+          \n Character Modeling, using Maya, ZBrush, Marvelous Designer, Substance Designer.\
+          \n The character design is Roberta from manga \'Black Laggon\'. The modeling is done from zero.",
         },
         {
           title: "Compute Animation Practice",
@@ -107,6 +91,25 @@
           with techniques like ray marching and AABB box, adopted an adaptive dynamic step-length to render efficiently\
           \n\n Used an interpolation of implicit functions to realize a smooth 3D morphing \
           \n",
+        },
+        {
+          title: "Android Application： Camerartist",
+          subtitle: "July 2020 - August 2020",
+          is_left: true,
+          id: 2,
+          md: "\
+          \n Built an application by Python & Java, with a client on Android and a server on Desktop.\
+          \n\n The application mainly capture a picture by camera, and stylize the picture on server. \
+          \n\n The network is based on Socket, and the stylization part is neural network use the open-source code by paper authors. \
+          Mainly use Mask-RCNN to frag the foreground and background, and stylize the background part only.",
+        },
+        {
+          title: "Plane Formation (on paper)",
+          subtitle: "August 2019 - October 2019",
+          is_left: false,
+          id: 3,
+          md: "\
+          \n On paper plane formation artworks, all original designed.",
         },
       ],
     },
