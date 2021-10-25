@@ -71,6 +71,67 @@
       },
       cards: [
         {
+          title: "SIByL Engine",
+          subtitle: "August 2021 - Present",
+          is_left: true,
+          id: 24,
+          md: "\
+            \nDeveloped the game engine independently based on 2D game tutorial Hazel2D.",
+        },
+        {
+          title: "Intern: Tencent Lightspeed & Quantum Studios Group",
+          subtitle: "June 2021 - July 2021",
+          is_left: true,
+          id: 23,
+          md: "\
+            \nRealize plasma explosion VFX in Unity, shader framework in Unity (standard Lit PBR, \
+            translucent, hair, fur, skin), \
+            \nhair modelling and baking produce in MAYA & UE4 with Python",
+        },
+        {
+          title: "Animation",
+          subtitle: "June 2021 - July 2021",
+          is_left: false,
+          id: 22,
+          md: "\
+          \n Personal work, a 2-day exercise to make an animation with a form as a combination of 2D & 3D.",
+        },
+        {
+          title: "Suika Graphic",
+          subtitle: "June 2021 - July 2021",
+          is_left: true,
+          id: 21,
+          md: "\
+          \n Personal implementation of some graphic algorithms.",
+        },
+        {
+          title: "3D High-quality-Graphic Game Development",
+          subtitle: "June 2021 - July 2021",
+          is_left: true,
+          id: 20,
+          md: "\
+          \n Team of 6, works out a relatively high-quality 3D game by Unity. \
+          I worked as the main artist as well as the only technical artist.",
+        },
+        {
+          title: "Real-time Neural Super-Resolution",
+          subtitle: "June 2021 - June 2021",
+          is_left: true,
+          id: 17,
+          md: "\
+          \n Reproduced Neural Supersampling for Real-time Rendering (siggraph 2020) with PyTorch\
+          \n\n Created the dataset with Unity and realized a great improvement in image quality measured by PSNR.",
+        },
+        {
+          title: "Auto-Colorizer (team work)",
+          subtitle: "June 2021 - June 2021",
+          is_left: true,
+          id: 19,
+          md: "\
+          \n 2 person team, works out a auto-Colorizer to automatically or interactive color and recolor gray images.\
+          Several methods are included, containing basically optimization & neural network. Simple GUI is implemented.",
+        },
+        {
           title: "Charcater Modeling",
           subtitle: "March 2021 - April 2021",
           is_left: false,
@@ -78,6 +139,24 @@
           md: "\
           \n Character Modeling, using Maya, ZBrush, Marvelous Designer, Substance Designer.\
           \n The character design is Roberta from manga \'Black Laggon\'. The modeling is done from zero.",
+        },
+        {
+          title: "Visual Exploration and Explanation of Badminton Tactics",
+          subtitle: "Dec 2020 - April 2021",
+          is_left: true,
+          id: 15,
+          md: "\
+          \n I worked with Xiangtong CHU, Phd student in CAD&CD national key-lab visualization group, implemented a badminton visualization system in Unity. \
+          \n",
+        },
+        {
+          title: "Procedural Texture & NPR",
+          subtitle: "Dec 2020 - Janurary 2021",
+          is_left: true,
+          id: 14,
+          md: "\
+          \n Designed a procedural texture, and a special Non photorealistic rendering method to implement a fatasy scene. \
+          \n",
         },
         {
           title: "Compute Animation Practice",
@@ -93,6 +172,37 @@
           \n",
         },
         {
+          title: "Game Development (team work)",
+          subtitle: "October 2020 - Nov 2020",
+          is_left: true,
+          id: 16,
+          md: "\
+          \n I worked out two games as the programmer, main artist and the only technical Artist of Light Studio (6 members). \
+          \n\n We received the 1st place in the national competition *Netease Minigmae 2020*.\
+          \n",
+        },
+        {
+          title: "Photography Works",
+          subtitle: "October 2019 - December 2019",
+          is_left: false,
+          id: 5,
+          md: "\
+          \n Photography works in late 2019, all shoted in Hangzhou using Canon EOS M6.",
+        },
+        {
+          title: "Unity Pontoon Bride VR Simulation",
+          subtitle: "July 2020 - April 2021",
+          is_left: true,
+          id: 18,
+          md: "\
+          \n Student Research Training Program \
+          \n Mentor: Associated Professor Huagen Wan from Zhejiang University \
+          \n\n Built a Pontoon Bridge VR simulation system by Unity + HTC vive independently\
+          \n\n Designed three different level buoyancy algorithms and applied them in a level-of-detail system\
+          \n\n Originally proposed some algorithm to help users get stronger sense of floating without any force feedback devices, mainly by some special scene design and pose estimation enhancement\
+          \n",
+        },
+        {
           title: "Android Application： Camerartist",
           subtitle: "July 2020 - August 2020",
           is_left: true,
@@ -104,12 +214,39 @@
           Mainly use Mask-RCNN to frag the foreground and background, and stylize the background part only.",
         },
         {
-          title: "Photography Works",
-          subtitle: "October 2019 - December 2019",
+          title: "Scene Modeling",
+          subtitle: "July 2019 - July 2019",
           is_left: false,
-          id: 5,
+          id: 13,
           md: "\
-          \n Photography works in late 2019, all shoted in Hangzhou using Canon EOS M6.",
+          \n Modeling of a simple scene, using Maya & Substance Painter.",
+        },
+        {
+          title: "OpenGL FPS Game",
+          subtitle: "May 2020 - June 2020",
+          is_left: true,
+          id: 11,
+          md: "\
+          \n A simple FPS game, originally written in OpenGL, with basic rendering algorithms.\
+          Shadow, normal map and simple ui & sound & physics are implemented.",
+        },
+        {
+          title: "Animation (Team Work)",
+          subtitle: "April 2020 - June 2020",
+          is_left: false,
+          id: 10,
+          md: "\
+          \n I worked out two interesting animation with a group of 3.\
+          \n The first one is a stop-motion Animation,\
+          \n the second one is a combination of 2D & 3D.",
+        },
+        {
+          title: "Digital Painting",
+          subtitle: "March 2020 - July 2020",
+          is_left: false,
+          id: 12,
+          md: "\
+          \n Digital painting, using iPad procreator & Photoshop.",
         },
         {
           title: "Image Processing Library",
@@ -134,6 +271,14 @@
           id: 3,
           md: "\
           \n On paper plane formation artworks, all original designed.",
+        },
+        {
+          title: "Tetris with GoldenFinger",
+          subtitle: "April 2018 - May 2018",
+          is_left: true,
+          id: 9,
+          md: "\
+          \n Tetris written in C++, with some interesting golden finger items.",
         },
         {
           title: "Watercolor Works(on paper)",
