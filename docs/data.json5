@@ -71,6 +71,15 @@
       },
       cards: [
         {
+          title: "Intern: Rays Engine(Hangzhou) Technology",
+          subtitle: "November 2021 - Present",
+          is_left: true,
+          id: 25,
+          md: "\
+            \nRays Engine Technology is a firm developing cloud rendering engine led by Prof. Rui Wang, a professor of the state lab of \
+            CAD & CG in Zhejiang University. I am now working on a brand new particle system research, led by a PhD student.",
+        },
+        {
           title: "SIByL Engine",
           subtitle: "August 2021 - Present",
           is_left: true,

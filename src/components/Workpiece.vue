@@ -457,6 +457,13 @@ export default class YourComponent extends Vue {
                 images: [ ],
                 videos:[ {src: "//player.bilibili.com/player.html?aid=850677601&bvid=BV13L4y147jm&cid=486757806&page=1"} ],
             },
+            {
+                id: '25',
+                name: 'Intern: Rays Engine(Hangzhou) Technology',
+                md: 'I am working on a brand new particle system module research led a PhD student. No detail is approved for release yet.',
+                images: [ ],
+                videos:[ ],
+            }
             ]
         }
     }
