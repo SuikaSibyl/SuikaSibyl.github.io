@@ -455,7 +455,7 @@ export default class YourComponent extends Vue {
                 md: '# **Visit Github page**: [SuikaSibyl-SibylEngine](https://github.com/SuikaSibyl/SibylEngine)\
                     \n ...',
                 images: [ ],
-                videos:[ ],
+                videos:[ {src: "//player.bilibili.com/player.html?aid=850677601&bvid=BV13L4y147jm&cid=486757806&page=1"} ],
             },
             ]
         }

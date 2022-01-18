@@ -4,11 +4,6 @@
     <div class="social" :style="{'font-size': size + 'em'}">
         <!-- github -->
         <a :style="{color: color}" :href="social['github'] || 'https://github.com/manerfan'" target="_blank"><a-icon type="github" /></a>
-        <!-- 微信 -->
-        <a-popover arrowPointAtCenter>
-            <template slot="content"><img style="width: 360px; max-width: 80vw; height: auto;"  alt="林中小舍" src="../../assets/wechat.jpg"/></template>
-            <a :style="{color: color}"><a-icon type="wechat" /></a>
-        </a-popover>
         <!-- twitter -->
         <a :style="{color: color}" :href="social['twitter'] || 'https://twitter.com/manerfan_china'" target="_blank"><a-icon type="twitter" /></a>
         <!-- linkedin -->
