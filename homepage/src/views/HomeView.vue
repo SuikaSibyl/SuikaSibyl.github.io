@@ -31,7 +31,7 @@
                   <a href="https://github.com/SuikaSibyl" target="_blank">➤ Github</a>
                   &nbsp;
                   &nbsp;
-                  <a href="https://github.com/SuikaSibyl" target="_blank">➤ CV</a>
+                  <a href="https://imagehost-suikasibyl-us.oss-us-west-1.aliyuncs.com/Haolin%20Lu-Resume%281%29.pdf" target="_blank">➤ CV</a>
 
                     <!-- <span class="key">{{name}}:</span>
                     <a class="value" v-if="isUrl(value)" :href="value" target="_blank">{{value | simplifyUrl}}</a>
@@ -182,7 +182,8 @@ export default {
               cover_url: 'https://imagehost-suikasibyl-us.oss-us-west-1.aliyuncs.com/cover_hair.png',
               code: 'https://github.com/SuikaSibyl/SIByLEngine2022',
               description: 'A personal toy engine, supporting many of my projects. Multiple version iterations since 2021.\
-              In the hair demo, implemented many features like TAA and dithered soft edges, anisotropic materials, etc.'
+              In the hair demo, implemented many features like TAA and dithered soft edges, anisotropic materials, etc.',
+              video: 'https://www.bilibili.com/video/BV13L4y147jm/'
             },
             {
               id: 8,
@@ -350,6 +351,9 @@ export default {
       // let that = this;
       // that.waterfall_id = that.waterfall_id + 1;
     }
+  },
+  created() {
+    document.title = 'Haolin Lu\'s Homepage';
   },
   mounted() {
     let that = this;
